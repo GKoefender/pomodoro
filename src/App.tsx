@@ -1,6 +1,19 @@
+import { ThemeProvider } from 'styled-components'
+
+import { Button } from './Components/Button'
+
+import { defaultTheme } from './styles/themes/default'
+import { GlobalStyle } from './styles/global'
+
 function App () {
   return (
-    <h1>Pomodoro</h1>
+    <ThemeProvider theme={defaultTheme}>
+      <GlobalStyle />
+      <Button></Button>
+      <Button></Button>
+      <Button></Button>
+      <Button></Button>
+    </ThemeProvider>
   )
 }
 
