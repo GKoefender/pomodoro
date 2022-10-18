@@ -6,7 +6,7 @@ import { Router } from './Router'
 import { defaultTheme } from './styles/themes/default'
 import { GlobalStyle } from './styles/global'
 
-function App () {
+function App (): JSX.Element {
   return (
     <ThemeProvider theme={defaultTheme}>
       <BrowserRouter>

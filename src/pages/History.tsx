@@ -1,4 +1,4 @@
-const History = () => {
+const History = (): JSX.Element => {
   return (
     <h1>History</h1>
   )
