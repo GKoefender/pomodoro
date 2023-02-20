@@ -1,6 +1,6 @@
 import { Play } from 'phosphor-react'
 import { useForm } from 'react-hook-form'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import zod from 'zod'
 
@@ -20,8 +20,13 @@ interface Cycle {
 }
 
 const Home = (): JSX.Element => {
-  const [cycles, setCycles] = useState<Cycle[]>({})
-  const [activeCycleId, setDctiveCycleId] = useState<string | null>(null)
+  const [cycles, setCycles] = useState<Cycle[]>([])
+  const [activeCycleId, setActiveCycleId] = useState<string | null>(null)
+
+  const [currentSeconds, setCurrentSeconds] = useState(0)
+  const [currentMinutes, setCurrentMinutes] = useState(0)
+  const minutes = currentMinutes.toString().padStart(2, '0')
+  const seconds = currentSeconds.toString().padStart(2, '0')
 
   const { register, handleSubmit, watch, formState, reset } = useForm({
     resolver: zodResolver(newCycleFormValidationSchema),
@@ -30,6 +35,21 @@ const Home = (): JSX.Element => {
       minutesAmount: 0
     }
   })
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (activeCycleId !== null) {
+        if (currentSeconds !== 0 || currentMinutes !== 0) {
+          if (currentSeconds === 0) {
+            setCurrentSeconds(59)
+            setCurrentMinutes(state => state - 1)
+          } else {
+            setCurrentSeconds(state => state - 1)
+          }
+        }
+      }
+    }, 1000)
+  }, [activeCycleId, currentSeconds, currentMinutes])
 
   const handleCreateNewCycle = (data: newCycleFormData) => {
     const newCycleId = String(new Date().getTime())
@@ -41,7 +61,10 @@ const Home = (): JSX.Element => {
     }
 
     setCycles((state) => [...state, newCycle])
-    setDctiveCycleId(newCycleId)
+    setActiveCycleId(newCycleId)
+
+    setCurrentMinutes(newCycle.minutesAmount)
+    setCurrentSeconds(0)
 
     reset()
   }
@@ -49,7 +72,7 @@ const Home = (): JSX.Element => {
   const activeCycle = cycles.find(cycle => cycle.id === activeCycleId)
 
   const task = watch('task')
-  const isSubmitDisabled = !task
+  const isSubmitDisabled = task.length === 0
 
   return (
     <HomeContainer>
@@ -85,13 +108,11 @@ const Home = (): JSX.Element => {
         </FormContainer>
 
         <CountDownContainer>
-          <span>0</span>
-          <span>0</span>
-
+            <span>{minutes[0]}</span>
+            <span>{minutes[1]}</span>
           <Separator>:</Separator>
-
-          <span>0</span>
-          <span>0</span>
+            <span>{seconds[0]}</span>
+            <span>{seconds[1]}</span>
         </CountDownContainer>
 
         <StartCountdownButton disabled={isSubmitDisabled} type="submit">
