@@ -19,7 +19,7 @@ interface Cycle {
   minutesAmount: number
 }
 
-const Home = (): JSX.Element => {
+const Home = () => {
   const [cycles, setCycles] = useState<Cycle[]>([])
   const [activeCycleId, setActiveCycleId] = useState<string | null>(null)
 
@@ -35,6 +35,12 @@ const Home = (): JSX.Element => {
       minutesAmount: 0
     }
   })
+
+  useEffect(() => {
+    if (activeCycle != null) {
+      document.title = `${minutes}:${seconds}`
+    }
+  }, [minutes, seconds])
 
   useEffect(() => {
     setTimeout(() => {
