@@ -8,7 +8,7 @@ import { HomeContainer, FormContainer, CountDownContainer, Separator, StartCount
 
 const newCycleFormValidationSchema = zod.object({
   task: zod.string().min(1, 'Informe a tarefa'),
-  minutesAmount: zod.number().min(5, 'O cliclo precisa ser de no mínimo 5 minutos.').max(60, 'O ciclo precisa ser de no máximo 60 minutos.')
+  minutesAmount: zod.number().min(1, 'O cliclo precisa ser de no mínimo 5 minutos.').max(60, 'O ciclo precisa ser de no máximo 60 minutos.')
 })
 
 type newCycleFormData = zod.infer<typeof newCycleFormValidationSchema>
@@ -29,7 +29,7 @@ const Home = () => {
   const minutes = activeCycleId === null ? '00' : currentMinutes.toString().padStart(2, '0')
   const seconds = activeCycleId === null ? '00' : currentSeconds.toString().padStart(2, '0')
 
-  const { register, handleSubmit, watch, formState, reset } = useForm({
+  const { register, handleSubmit, watch, reset } = useForm({
     resolver: zodResolver(newCycleFormValidationSchema),
     defaultValues: {
       task: '',
@@ -53,6 +53,8 @@ const Home = () => {
           } else {
             setCurrentSeconds(state => state - 1)
           }
+        } else {
+          setActiveCycleId(null)
         }
       }
     }, 1000)
@@ -119,7 +121,7 @@ const Home = () => {
            id="minutesAmount"
            placeholder="00"
            step={5}
-           min={0}
+           min={1}
            max={60}
            disabled={!(activeCycle == null) }
            {...register('minutesAmount', { valueAsNumber: true })}
