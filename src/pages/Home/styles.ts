@@ -16,54 +16,6 @@ const HomeContainer = styled.main`
   }
 `
 
-const FormContainer = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-
-  color: ${props => props.theme['gray-100']};
-  font-size: 1.125rem;
-  font-weight: bold;
-
-  // quebra quando diminui o tamanho da tela
-  flex-wrap: wrap;
-`
-
-const BaseInput = styled.input`
-  background: transparent;
-  height: 2.5rem;
-  border: 0;
-  border-bottom: 2px solid ${props => props.theme['gray-500']};
-  font-weight: bold;
-  font-size: 1.125rem;
-  padding: 0 0.5rem; 
-  color: ${props => props.theme['gray-100']};
-
-  &:focus {
-    box-shadow: none;
-    border-color: ${props => props.theme['green-500']};
-  }
-
-  &::placeholder {
-    color: ${props => props.theme['gray-500']};
-  }
-`
-
-const TaskInput = styled(BaseInput)`
-  flex: 1;
-
-  // tirar flecha das sugestões
-  &::-webkit-calendar-picker-indicator {
-    display: none !important;
-  }
-`
-
-const MinutesAmountInput = styled(BaseInput)`
-  width: 4rem;
-`
-
 const CountDownContainer = styled.div`
   font-family: 'Roboto Mono', monospace;
   font-size: 10rem;
@@ -126,4 +78,4 @@ const StopCountdownButton = styled(BaseCountdownButton)`
   }
 `
 
-export { HomeContainer, FormContainer, CountDownContainer, Separator, StartCountdownButton, TaskInput, MinutesAmountInput, StopCountdownButton }
+export { HomeContainer, CountDownContainer, Separator, StartCountdownButton, StopCountdownButton }
